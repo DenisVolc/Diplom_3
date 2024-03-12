@@ -1,5 +1,6 @@
 package register;
 
+import http.ApiMethods;
 import http.EndPoints;
 import constants.URL;
 import http.client.DeleteApi;
@@ -27,6 +28,7 @@ public class RegisterTests {
     TechClass browser = new TechClass();
     PostApi postApi = new PostApi();
     DeleteApi deleteApi = new DeleteApi();
+    ApiMethods apiMethod = new ApiMethods();
 
 
     private String email = TechClass.getRandomIndex()+"@gmail.com"; //todo сделать параметризованные тест для разных вариантов авторизации
@@ -82,9 +84,7 @@ public class RegisterTests {
     @After
     public void cleanUp(){
         driver.quit();
-        if(accessToken!=null){
-            deleteApi.deleteUser(accessToken).then().statusCode(202);
-        }
+        apiMethod.apiDelete(accessToken);
     }
 
 

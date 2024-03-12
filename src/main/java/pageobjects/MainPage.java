@@ -17,8 +17,12 @@ public class MainPage {
     @FindBy(className = "active")
     private WebElement stellarBurgers; // логотип StellarBurgers
 
+    @FindBy(css = ".text.text_type_main-large.mb-5.mt-10")
+    private WebElement makeBurgerTitle; //надпись соберите бургер
 
-
+    public boolean isMakeBurgerTitleVisible(){
+        return  makeBurgerTitle.isDisplayed();
+    }
 
 
 }
