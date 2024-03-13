@@ -23,13 +23,6 @@ public class BaseHttpClient {
     }
 
 
-
-    protected Response doGetRequest(String path){
-        return RestAssured.given()
-                .spec(baseRequestSpec())
-                .get(path)
-                .thenReturn();
-    }
     protected Response doGetRequest(String path, String token){
         return RestAssured.given()
                 .header("Authorization", token)

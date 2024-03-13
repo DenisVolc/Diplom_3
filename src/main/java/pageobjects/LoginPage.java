@@ -1,16 +1,15 @@
 package pageobjects;
 
+import constants.URL;
 import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 
-public class LoginPage {
-    WebDriver driver;
+public class LoginPage extends SuperPage {
+
     public LoginPage(WebDriver driver){
-        this.driver = driver;
-        PageFactory.initElements(driver, this);
+        super(driver);
     }
     @FindBy(className = "Auth_link__1fOlj")
     private WebElement registerButton; // кнопка "Зарегистрироваться"
@@ -37,5 +36,14 @@ public class LoginPage {
     @Step("Ввести пароль")
     public void inputPassword(String password){
         passwordInput.sendKeys(password);
+    }
+    public void doLogin(String email,String password){
+        inputEmail(email);
+        inputPassword(password);
+        clickLoginButton();
+    }
+    @Step("Открыть страницу авторизации")
+    public void openLoginPage(){
+        driver.get(URL.LOGIN_PAGE_URL);
     }
 }

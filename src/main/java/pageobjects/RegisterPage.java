@@ -1,16 +1,16 @@
 package pageobjects;
 
+import constants.URL;
 import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-public class RegisterPage {
-    WebDriver driver;
+public class RegisterPage extends SuperPage{
+
     public RegisterPage(WebDriver driver){
-        this.driver = driver;
-        PageFactory.initElements(driver, this);
+        super(driver);
     }
 //-----------------------------------ЛОКАТОРЫ------------------------------------------------------------
     @FindBy(xpath = "//fieldset[1]//div[1]//div[1]//input[1]")
@@ -46,5 +46,14 @@ public class RegisterPage {
     public boolean isWrongPasswordTitleVisible(){
         return wrongPasswordTitle.isDisplayed();
     }
-
+    @Step("Открыть страницу регистрации")
+    public void openRegisterPage(){
+        driver.get(URL.REGISTER_PAGE_URL);
+    }
+    public void doRegister(String name, String email,String password){
+        nameInput(name);
+        emailInput(email);
+        passwordInput(password);
+        clickRegisterButton();
+    }
 }

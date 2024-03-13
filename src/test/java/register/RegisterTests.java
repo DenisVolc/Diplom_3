@@ -1,11 +1,10 @@
 package register;
 
-import http.ApiMethods;
-import http.EndPoints;
-import constants.URL;
 import http.client.DeleteApi;
 import http.client.PostApi;
 import http.json.LoginRequestCard;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.Response;
 import org.junit.After;
@@ -26,14 +25,11 @@ public class RegisterTests {
     WebDriver driver;
     RegisterPage registerPage;
     TechClass browser = new TechClass();
-    PostApi postApi = new PostApi();
     DeleteApi deleteApi = new DeleteApi();
-    ApiMethods apiMethod = new ApiMethods();
+    PostApi postApi = new PostApi();
 
-
-    private String email = TechClass.getRandomIndex()+"@gmail.com"; //todo сделать параметризованные тест для разных вариантов авторизации
-
-    private String name = "User"+TechClass.getRandomIndex();
+    private String email = "testUser"+TechClass.getRandomIndex()+"@gmail.com";
+    private String name = "testUser"+TechClass.getRandomIndex();
     private String password = TechClass.getRandomIndex();
 
     private String accessToken;
@@ -43,40 +39,27 @@ public class RegisterTests {
         driver = browser.getWebDriver("chrome");
         driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
         registerPage= new RegisterPage(driver);
-        openRegisterPage();
-
+        registerPage.openRegisterPage();
     }
+
     @Test
     @DisplayName("Успешная регистрация")
+    @Severity(value = SeverityLevel.CRITICAL)
     public void registrationTest(){
-        registerPage.nameInput(name);
-        registerPage.emailInput(email);
-        registerPage.passwordInput(password);
-        registerPage.clickRegisterButton();
+        registerPage.doRegister(name,email,password);
         apiAuth(200,"user.email",loginCard.getEmail());
     }
-
     @Test
     @DisplayName("Регистрация с некорректным паролем")
+    @Severity(value = SeverityLevel.NORMAL)
     public void wrongPasswordRegTest(){
-        registerPage.nameInput(name);
-        registerPage.emailInput(email);
-        registerPage.passwordInput(password.substring(0,5));//первые 5 символом пароля
-        registerPage.clickRegisterButton();
+        registerPage.doRegister(name,email,password.substring(0,5));//первые 5 символом пароля
         assertTrue(registerPage.isWrongPasswordTitleVisible());
     }
 //----------------------------------STEPS----------------------------------
-    @Step("Открыть страницу авторизации")
-    public void openLoginPage(){
-        driver.get(URL.LOGIN_PAGE_URL);
-    }
-    @Step("Открыть страницу регистрации")
-    public void openRegisterPage(){
-        driver.get(URL.REGISTER_PAGE_URL);
-    }
-    @Step("Авторизация через API")
+    @Step("Авторизация")
     public void apiAuth(int statusCode, String bodyParm, String equalTo){
-        Response response = postApi.doPost(EndPoints.LOGIN,loginCard);
+        Response response = postApi.apiAuth(loginCard);
         accessToken = response.getBody().path("accessToken");
         response.then().statusCode(statusCode)
                 .and().assertThat().body(bodyParm,equalTo(equalTo));
@@ -84,8 +67,6 @@ public class RegisterTests {
     @After
     public void cleanUp(){
         driver.quit();
-        apiMethod.apiDelete(accessToken);
+        deleteApi.deleteUser(accessToken);
     }
-
-
 }
