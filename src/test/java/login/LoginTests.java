@@ -1,50 +1,18 @@
 package login;
 
-import http.client.DeleteApi;
-import http.client.GetApi;
-import http.client.PostApi;
-import http.json.RegisterRequsetCard;
-import io.qameta.allure.Severity;
-import io.qameta.allure.SeverityLevel;
+
 import io.qameta.allure.junit4.DisplayName;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.openqa.selenium.WebDriver;
-import pageobjects.ForgotPage;
-import pageobjects.LoginPage;
-import pageobjects.MainPage;
-import tech.TechClass;
-
-import java.util.concurrent.TimeUnit;
+import supertest.SuperTest;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
-public class LoginTests {
-    WebDriver driver;
-    DeleteApi deleteApi = new DeleteApi();
-    GetApi getApi = new GetApi();
-    PostApi postApi = new PostApi();
-    LoginPage loginPage;
-    MainPage mainPage;
-    ForgotPage forgotPage;
-    RegisterRequsetCard registerCard;
-    private String accessToken;
-    TechClass browser = new TechClass();
+public class LoginTests extends SuperTest {
+
     @Before
     public void setUp(){
-        driver = browser.getWebDriver("chrome");
-        driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
-
-        loginPage = new LoginPage(driver);
-        mainPage = new MainPage(driver);
-        forgotPage = new ForgotPage(driver);
-
-        registerCard = new RegisterRequsetCard(
-                "test_user"+ TechClass.getRandomIndex() +"@a.com",
-                TechClass.getRandomIndex(),
-                "test_user"+TechClass.getRandomIndex());
+        doBefore();
         accessToken = postApi.apiReg(registerCard).getBody().path("accessToken");
     }
     @Test
@@ -70,8 +38,6 @@ public class LoginTests {
         loginPage.doLogin(registerCard.getEmail(), registerCard.getPassword());
         assertEquals(registerCard.getEmail(),getApi.apiGetUser(accessToken));
     }
-
-    //    вход через кнопку в форме восстановления пароля.
     @Test
     @DisplayName("Проверка успешного входа через кнопку в форме восстановления пароля")
     public void ForgotPageRegTest(){
@@ -79,11 +45,5 @@ public class LoginTests {
         forgotPage.clickLoginButton();
         loginPage.doLogin(registerCard.getEmail(), registerCard.getPassword());
         assertEquals(registerCard.getEmail(),getApi.apiGetUser(accessToken));
-    }
-
-    @After
-    public void cleanUp(){
-        driver.quit();
-        deleteApi.deleteUser(accessToken);//удалить
     }
 }

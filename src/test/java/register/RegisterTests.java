@@ -1,57 +1,36 @@
 package register;
 
-import http.client.DeleteApi;
-import http.client.PostApi;
 import http.json.LoginRequestCard;
-import io.qameta.allure.Severity;
-import io.qameta.allure.SeverityLevel;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.Response;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.openqa.selenium.WebDriver;
-import pageobjects.RegisterPage;
-import tech.TechClass;
+import supertest.SuperTest;
 import io.qameta.allure.Step;
-
-import java.util.concurrent.TimeUnit;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertTrue;
 
 
-public class RegisterTests {
-    WebDriver driver;
-    RegisterPage registerPage;
-    TechClass browser = new TechClass();
-    DeleteApi deleteApi = new DeleteApi();
-    PostApi postApi = new PostApi();
+public class RegisterTests extends SuperTest {
 
-    private String email = "test_user"+TechClass.getRandomIndex()+"@gmail.com";
-    private String name = "test_user"+TechClass.getRandomIndex();
-    private String password = TechClass.getRandomIndex();
-
-    private String accessToken;
-    LoginRequestCard loginCard = new LoginRequestCard(email,password);
     @Before
     public void setUp(){
-        driver = browser.getWebDriver("chrome");
-        driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
-        registerPage= new RegisterPage(driver);
+        doBefore();
         registerPage.openRegisterPage();
+        loginCard = new LoginRequestCard(registerCard.getEmail(),registerCard.getPassword());
     }
 
     @Test
     @DisplayName("Успешная регистрация")
     public void registrationTest(){
-        registerPage.doRegister(name,email,password);
+        registerPage.doRegister(registerCard.getName(),registerCard.getEmail(),registerCard.getPassword());
         apiAuth(200,"user.email",loginCard.getEmail());
     }
     @Test
     @DisplayName("Регистрация с некорректным паролем")
-    public void wrongPasswordRegTest(){
-        registerPage.doRegister(name,email,password.substring(0,5));//первые 5 символом пароля
+    public void wrongPasswordRegTest(){ //todo починить :java.lang.StringIndexOutOfBoundsException: begin 0, end 5, length 4
+        registerPage.doRegister(registerCard.getName(),registerCard.getEmail(),registerCard.getPassword().substring(0,5));//первые 5 символом пароля
         assertTrue(registerPage.isWrongPasswordTitleVisible());
     }
 //----------------------------------STEPS----------------------------------
@@ -63,9 +42,4 @@ public class RegisterTests {
                 .and().assertThat().body(bodyParm,equalTo(equalTo));
     }
 
-    @After
-    public void cleanUp(){
-        driver.quit();
-        deleteApi.deleteUser(accessToken);
-    }
 }

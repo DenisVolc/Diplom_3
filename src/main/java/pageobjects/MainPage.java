@@ -12,10 +12,11 @@ public class MainPage extends SuperPage {
         super(driver);
     }
     @FindBy(xpath = "//p[contains(text(),'Личный Кабинет')]")
-    private WebElement personalAccount; // кнопка "Личный кабинет"
-    @FindBy(className = "AppHeader_header__logo__2D0X2")
-    private WebElement logo; //логтип Stellar Burgers
-    @FindBy(css = ".text.text_type_main-large.mb-5.mt-10")
+    private WebElement personalAccountButton; // кнопка "Личный кабинет"
+//    @FindBy(className = "AppHeader_header__logo__2D0X2")
+//    private WebElement logo; //логтип Stellar Burgers
+    @FindBy(css = ".text.text_type_main-larg" +
+            "e.mb-5.mt-10")
     private WebElement makeBurgerTitle; //надпись соберите бургер
     @FindBy(css=".button_button__33qZ0.button_button_type_primary__1O7Bx.button_button_size_large__G21Vg")
     private WebElement enterAccountButton; //кнопка "войти в аккаунт"
@@ -57,7 +58,7 @@ public class MainPage extends SuperPage {
     }
     @Step("Нажать кнопку \"Личный кабинет\"")
     public void clickPersonalAccountButton(){
-        personalAccount.click();
+        personalAccountButton.click();
     }
     @Step("Открыть главную страницу")
     public void openMainPage(){

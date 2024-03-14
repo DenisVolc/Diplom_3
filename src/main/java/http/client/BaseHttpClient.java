@@ -21,8 +21,6 @@ public class BaseHttpClient {
                 .addFilter(new ErrorLoggingFilter())
                 .build();
     }
-
-
     protected Response doGetRequest(String path, String token){
         return RestAssured.given()
                 .header("Authorization", token)
@@ -31,30 +29,12 @@ public class BaseHttpClient {
                 .get(path)
                 .thenReturn();
     }
-
     protected Response doPostRequest(String path, Object body){
         return RestAssured.given()
                 .spec(baseRequestSpec())
                 .body(body)
                 .when()
                 .post(path)
-                .thenReturn();
-    }
-    protected Response doPostRequestWithAuth(String path, Object body,String token){
-        return RestAssured.given()
-                .header("Authorization", token)
-                .spec(baseRequestSpec())
-                .body(body)
-                .when()
-                .post(path)
-                .thenReturn();
-    }
-    protected Response doPutRequest(String path, String param, String data){
-        return RestAssured.given()
-                .spec(baseRequestSpec())
-                .when()
-                .queryParam(param,data)
-                .put(path)
                 .thenReturn();
     }
     protected Response doDeleteRequest(String path,String token){
@@ -64,21 +44,7 @@ public class BaseHttpClient {
                 .delete(path)
                 .thenReturn();
     }
-    protected Response doDeleteRequest(String path,Object body){
-        return RestAssured.given()
-                .spec(BaseHttpClient.baseRequestSpec())
-                .body(body)
-                .delete(path)
-                .thenReturn();
-    }
-    protected Response doPatchRequest(String path,Object body,String token){
-        return RestAssured.given()
-                .header("Authorization", token)
-                .spec(BaseHttpClient.baseRequestSpec())
-                .body(body)
-                .patch(path)
-                .thenReturn();
-    }
+
 
 
 

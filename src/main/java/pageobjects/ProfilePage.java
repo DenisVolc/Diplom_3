@@ -1,6 +1,5 @@
 package pageobjects;
 
-import constants.URL;
 import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -31,10 +30,7 @@ public class ProfilePage extends SuperPage{
     public void clickExitButton(){
         exitButton.click();
     }
-    @Step("Открыть личный кабинет")
-    public void openProfilePage(){
-        driver.get(URL.PROFILE_PAGE_URL);
-    }
+
 
     public boolean isKeyTitleDisplayed(){
         return keyTitle.isDisplayed();
