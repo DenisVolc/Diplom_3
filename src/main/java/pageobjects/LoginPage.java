@@ -46,4 +46,9 @@ public class LoginPage extends SuperPage {
     public void openLoginPage(){
         driver.get(URL.LOGIN_PAGE_URL);
     }
+
+    public boolean isLoginButtonDisplayed(){
+        return loginButton.isDisplayed();
+    }
+
 }

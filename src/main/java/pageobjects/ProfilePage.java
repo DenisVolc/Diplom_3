@@ -16,6 +16,8 @@ public class ProfilePage extends SuperPage{
     private WebElement logo; //логтип Stellar Burgers
     @FindBy(css = "header[class='AppHeader_header__X9aJA pb-4 pt-4'] li:nth-child(1) a:nth-child(1)")
     private WebElement constructorButton;
+    @FindBy(xpath = "//button[contains(text(),'Выход')]")
+    private WebElement exitButton;
 
     @Step("Нажать на логотип Stellar Burgers")
     public void clickLogo(){
@@ -24,6 +26,10 @@ public class ProfilePage extends SuperPage{
     @Step ("Нажать на кнопку \"Конструктор\"")
     public void clickConstructorButton(){
         constructorButton.click();
+    }
+    @Step ("Нажать на кнопку \"Выход\"")
+    public void clickExitButton(){
+        exitButton.click();
     }
     @Step("Открыть личный кабинет")
     public void openProfilePage(){

@@ -64,6 +64,7 @@ public class RegisterTests {
         response.then().statusCode(statusCode)
                 .and().assertThat().body(bodyParm,equalTo(equalTo));
     }
+
     @After
     public void cleanUp(){
         driver.quit();

@@ -13,6 +13,7 @@ import org.openqa.selenium.WebDriver;
 import pageobjects.LoginPage;
 import pageobjects.MainPage;
 import pageobjects.ProfilePage;
+import pageobjects.RegisterPage;
 import tech.TechClass;
 
 import java.util.concurrent.TimeUnit;
@@ -22,58 +23,57 @@ import static org.junit.Assert.assertTrue;
 public class TransitionsTests {
     WebDriver driver;
     DeleteApi deleteApi = new DeleteApi();
-    GetApi getApi = new GetApi();
     PostApi postApi = new PostApi();
     LoginPage loginPage;
     MainPage mainPage;
     ProfilePage profilePage;
     RegisterRequsetCard registerCard;
-    LoginRequestCard loginCard;
     private String accessToken;
     TechClass browser = new TechClass();
 
     @Before
-    public void setUp(){
+    public void setUp() {
         driver = browser.getWebDriver("chrome");
-        driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
-
+        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
         loginPage = new LoginPage(driver);
         mainPage = new MainPage(driver);
         profilePage = new ProfilePage(driver);
-
         registerCard = new RegisterRequsetCard(
                 "testUser"+ TechClass.getRandomIndex() +"@a.com",
                 TechClass.getRandomIndex(),
                 "testUser"+TechClass.getRandomIndex());
-        loginCard = new LoginRequestCard(
-                registerCard.getEmail(),
-                registerCard.getPassword()
-        );
         accessToken = postApi.apiReg(registerCard).getBody().path("accessToken");
-        postApi.apiAuth(loginCard);
+        loginPage.openLoginPage();
+        loginPage.doLogin(registerCard.getEmail(), registerCard.getPassword());
     }
 
 
     @Test
     @DisplayName("Проверка переход по клику на «Личный кабинет»")
     public void personalAccTransitionTest(){
-        mainPage.openMainPage();
         mainPage.clickPersonalAccountButton();
         assertTrue(profilePage.isKeyTitleDisplayed());
     }
     @Test
     @DisplayName("Проверка перехода из личного кабинета в конструктор по клику на кнопку «Конструктор»")
     public void constructButtonTransitionTest(){
-        profilePage.openProfilePage();
+        mainPage.clickPersonalAccountButton();
         profilePage.clickConstructorButton();
         assertTrue(mainPage.isMakeBurgerTitleDisplayed());
     }
     @Test
     @DisplayName("Проверка перехода из личного кабинета в конструктор по клику на кнопку «Конструктор»")
     public void logoTransitionTest(){
-        profilePage.openProfilePage();
+        mainPage.clickPersonalAccountButton();
         profilePage.clickLogo();
         assertTrue(mainPage.isMakeBurgerTitleDisplayed());
+    }
+    @Test
+    @DisplayName("Проверка выходапо кнопке «Выйти» в личном кабинете")
+    public void exitTransitionTest(){
+        mainPage.clickPersonalAccountButton();
+        profilePage.clickExitButton();
+        assertTrue(loginPage.isLoginButtonDisplayed());
     }
 
     @After
