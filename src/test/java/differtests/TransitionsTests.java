@@ -39,9 +39,9 @@ public class TransitionsTests {
         mainPage = new MainPage(driver);
         profilePage = new ProfilePage(driver);
         registerCard = new RegisterRequsetCard(
-                "testUser"+ TechClass.getRandomIndex() +"@a.com",
+                "test_user"+ TechClass.getRandomIndex() +"@a.com",
                 TechClass.getRandomIndex(),
-                "testUser"+TechClass.getRandomIndex());
+                "test_user"+TechClass.getRandomIndex());
         accessToken = postApi.apiReg(registerCard).getBody().path("accessToken");
         loginPage.openLoginPage();
         loginPage.doLogin(registerCard.getEmail(), registerCard.getPassword());

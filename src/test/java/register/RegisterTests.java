@@ -28,8 +28,8 @@ public class RegisterTests {
     DeleteApi deleteApi = new DeleteApi();
     PostApi postApi = new PostApi();
 
-    private String email = "testUser"+TechClass.getRandomIndex()+"@gmail.com";
-    private String name = "testUser"+TechClass.getRandomIndex();
+    private String email = "test_user"+TechClass.getRandomIndex()+"@gmail.com";
+    private String name = "test_user"+TechClass.getRandomIndex();
     private String password = TechClass.getRandomIndex();
 
     private String accessToken;
@@ -44,14 +44,12 @@ public class RegisterTests {
 
     @Test
     @DisplayName("Успешная регистрация")
-    @Severity(value = SeverityLevel.CRITICAL)
     public void registrationTest(){
         registerPage.doRegister(name,email,password);
         apiAuth(200,"user.email",loginCard.getEmail());
     }
     @Test
     @DisplayName("Регистрация с некорректным паролем")
-    @Severity(value = SeverityLevel.NORMAL)
     public void wrongPasswordRegTest(){
         registerPage.doRegister(name,email,password.substring(0,5));//первые 5 символом пароля
         assertTrue(registerPage.isWrongPasswordTitleVisible());

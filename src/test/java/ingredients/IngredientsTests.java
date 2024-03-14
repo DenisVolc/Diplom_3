@@ -3,6 +3,8 @@ package ingredients;
 import http.client.DeleteApi;
 import http.client.PostApi;
 import http.json.RegisterRequsetCard;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
 import io.qameta.allure.junit4.DisplayName;
 import org.junit.After;
 import org.junit.Before;
@@ -43,7 +45,7 @@ public class IngredientsTests {
         assertTrue(mainPage.isSauceSelected());
     }
     @Test
-    @DisplayName("Проверка перехода к разделу \"Соусы\"")
+    @DisplayName("Проверка перехода к разделу \"Начинки\"")
     public void fillingsTransitionTest(){
         mainPage.clickFillingsTitle();
         assertTrue(mainPage.isFillingsSelected());

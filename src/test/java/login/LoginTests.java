@@ -4,6 +4,8 @@ import http.client.DeleteApi;
 import http.client.GetApi;
 import http.client.PostApi;
 import http.json.RegisterRequsetCard;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
 import io.qameta.allure.junit4.DisplayName;
 import org.junit.After;
 import org.junit.Before;
@@ -40,9 +42,9 @@ public class LoginTests {
         forgotPage = new ForgotPage(driver);
 
         registerCard = new RegisterRequsetCard(
-                "testUser"+ TechClass.getRandomIndex() +"@a.com",
+                "test_user"+ TechClass.getRandomIndex() +"@a.com",
                 TechClass.getRandomIndex(),
-                "testUser"+TechClass.getRandomIndex());
+                "test_user"+TechClass.getRandomIndex());
         accessToken = postApi.apiReg(registerCard).getBody().path("accessToken");
     }
     @Test

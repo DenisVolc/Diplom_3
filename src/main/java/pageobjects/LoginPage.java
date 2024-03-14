@@ -11,8 +11,6 @@ public class LoginPage extends SuperPage {
     public LoginPage(WebDriver driver){
         super(driver);
     }
-    @FindBy(className = "Auth_link__1fOlj")
-    private WebElement registerButton; // кнопка "Зарегистрироваться"
 
     @FindBy(xpath = "//button[contains(text(),'Войти')]")
     private WebElement loginButton; // кнопка "Войти"
@@ -24,10 +22,6 @@ public class LoginPage extends SuperPage {
     @Step("Авторизоваться")
     public void clickLoginButton(){
         loginButton.click();
-    }
-    @Step("Зарегестрироваться")
-    public void clickRegisterButton(){
-        registerButton.click();
     }
     @Step("Ввести email")
     public void inputEmail(String email){
