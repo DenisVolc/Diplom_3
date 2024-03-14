@@ -9,9 +9,12 @@ public class TechClass {
         WebDriverManager.chromedriver().clearDriverCache().setup();
         switch(browserName){
             case "chrome":
+                System.out.println("Chrome browser selected.");
                 WebDriverManager.chromedriver().setup();
                 return new ChromeDriver();
             default:
+                System.out.println("Wrong browser name!");
+                System.out.println("Print \"chrome\" or \"yandex\".");
                 return null;
         }
     }

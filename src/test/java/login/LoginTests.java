@@ -6,12 +6,14 @@ import org.junit.Before;
 import org.junit.Test;
 import supertest.SuperTest;
 
+import java.io.IOException;
+
 import static org.junit.Assert.assertEquals;
 
 public class LoginTests extends SuperTest {
 
     @Before
-    public void setUp(){
+    public void setUp() throws IOException {
         doBefore();
         accessToken = postApi.apiReg(registerCard).getBody().path("accessToken");
     }

@@ -8,6 +8,8 @@ import org.junit.Test;
 import supertest.SuperTest;
 import io.qameta.allure.Step;
 
+import java.io.IOException;
+
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertTrue;
 
@@ -15,7 +17,7 @@ import static org.junit.Assert.assertTrue;
 public class RegisterTests extends SuperTest {
 
     @Before
-    public void setUp(){
+    public void setUp() throws IOException {
         doBefore();
         registerPage.openRegisterPage();
         loginCard = new LoginRequestCard(registerCard.getEmail(),registerCard.getPassword());
@@ -29,7 +31,7 @@ public class RegisterTests extends SuperTest {
     }
     @Test
     @DisplayName("Регистрация с некорректным паролем")
-    public void wrongPasswordRegTest(){ //todo починить :java.lang.StringIndexOutOfBoundsException: begin 0, end 5, length 4
+    public void wrongPasswordRegTest(){
         registerPage.doRegister(registerCard.getName(),registerCard.getEmail(),registerCard.getPassword().substring(0,5));//первые 5 символом пароля
         assertTrue(registerPage.isWrongPasswordTitleVisible());
     }
