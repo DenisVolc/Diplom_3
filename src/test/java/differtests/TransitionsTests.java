@@ -39,7 +39,7 @@ public class TransitionsTests extends SuperTest {
         assertTrue(mainPage.isMakeBurgerTitleDisplayed());
     }
     @Test
-    @DisplayName("Проверка выходапо кнопке «Выйти» в личном кабинете")
+    @DisplayName("Проверка выхода по кнопке «Выйти» в личном кабинете")
     public void exitTransitionTest(){
         mainPage.clickPersonalAccountButton();
         profilePage.clickExitButton();
