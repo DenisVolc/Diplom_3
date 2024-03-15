@@ -8,7 +8,6 @@ import org.junit.Test;
 import supertest.SuperTest;
 import io.qameta.allure.Step;
 
-import java.io.IOException;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertTrue;
@@ -17,7 +16,7 @@ import static org.junit.Assert.assertTrue;
 public class RegisterTests extends SuperTest {
 
     @Before
-    public void setUp() throws IOException {
+    public void setUp() {
         doBefore();
         registerPage.openRegisterPage();
         loginCard = new LoginRequestCard(registerCard.getEmail(),registerCard.getPassword());

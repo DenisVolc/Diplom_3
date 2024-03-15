@@ -6,16 +6,10 @@ import http.client.PostApi;
 import http.json.LoginRequestCard;
 import http.json.RegisterRequsetCard;
 import org.junit.After;
-import org.junit.Before;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
 import org.openqa.selenium.WebDriver;
 import pageobjects.*;
 import tech.TechClass;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.concurrent.TimeUnit;
 
 public class SuperTest {
@@ -32,18 +26,11 @@ public class SuperTest {
     protected String accessToken;
     protected TechClass browser = new TechClass();
     protected ProfilePage profilePage;
-    private String browserName;
 
 
 
-    public void doBefore() throws IOException {
-//        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-//        System.out.println("Print \"chrome\" or \"yandex\".");
-//        System.out.println("Enter prefer browser name: ");
-//        browserName = reader.readLine();//todo разобраться как считать из консоль
-//      //todo установить Yandex браузер
-//        driver = browser.getWebDriver(browserName);
-        driver = browser.getWebDriver("chrome");
+    public void doBefore()  {
+        driver = browser.getWebDriver();
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 
         mainPage = new MainPage(driver);
@@ -57,11 +44,12 @@ public class SuperTest {
                 TechClass.getRandomIndex(),
                 "test_user"+TechClass.getRandomIndex()
         );
-
     }
+
     @After
     public void cleanUp(){
         driver.quit();
         deleteApi.deleteUser(accessToken);
     }
+
 }

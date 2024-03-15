@@ -6,14 +6,13 @@ import supertest.SuperTest;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.IOException;
 
 import static org.junit.Assert.assertTrue;
 
 public class IngredientsTests extends SuperTest {
 
     @Before
-    public void setUp() throws IOException {
+    public void setUp()  {
         doBefore();
         mainPage.openMainPage();
     }
